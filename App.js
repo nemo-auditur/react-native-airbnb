@@ -8,6 +8,7 @@ import HomeScreen from "./containers/HomeScreen";
 import ProfileScreen from "./containers/ProfileScreen";
 import SignInScreen from "./containers/SignInScreen";
 import SettingsScreen from "./containers/SettingsScreen";
+import RoomScreen from "./containers/RoomScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -75,7 +76,7 @@ export default function App() {
                   };
                 }}
                 tabBarOptions={{
-                  activeTintColor: "tomato",
+                  activeTintColor: "#FF5A5F",
                   inactiveTintColor: "gray"
                 }}
               >
@@ -94,10 +95,14 @@ export default function App() {
                       </Stack.Screen>
 
                       <Stack.Screen
-                        name="Profile"
-                        options={{ title: "User Profile" }}
+                        name="Room"
+                        options={{
+                          title: "Room",
+                          headerStyle: { backgroundColor: "#FF5A5F" },
+                          headerTitleStyle: { color: "white" }
+                        }}
                       >
-                        {() => <ProfileScreen />}
+                        {() => <RoomScreen />}
                       </Stack.Screen>
                     </Stack.Navigator>
                   )}

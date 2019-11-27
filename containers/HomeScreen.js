@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/core";
-import { Button, FlatList, Image, Text, StyleSheet, View } from "react-native";
-import StarRating from "react-native-star-rating";
+import { FlatList, Image, Text, StyleSheet, View } from "react-native";
 import StarCard from "../components/StarCard";
-
 // import axios
 import axios from "axios";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
-export default function HomeScreen() {
+export default function HomeScreen(props) {
   const navigation = useNavigation();
 
   const [rooms, setRooms] = React.useState([]);
@@ -38,22 +37,34 @@ export default function HomeScreen() {
           data={rooms}
           keyExtractor={item => String(item._id)}
           renderItem={({ item }) => (
-            <View style={[styles.container]}>
-              <View style={[styles.imageContainer]}>
-                <Image
-                  style={{ width: 350, height: 200 }}
-                  source={{ uri: item.photos[0] }}
-                ></Image>
-                <Text style={[styles.price]}>{item.price} €</Text>
-                <Text numberOfLines={1}>{item.title}</Text>
-                <View style={[styles.reviewsContainer]}>
-                  <View style={[styles.starsContainer]}>
-                    <StarCard ratingValue={item.ratingValue} />
+            <TouchableOpacity
+              onPress={() => {
+                console.log(item._id);
+                navigation.navigate("Room", {
+                  _id: item._id
+                });
+              }}
+            >
+              <View style={[styles.container]}>
+                <View style={[styles.imageContainer]}>
+                  <Image
+                    style={{ width: 350, height: 200 }}
+                    source={{ uri: item.photos[0] }}
+                  ></Image>
+                  <Text style={[styles.price]}>{item.price} €</Text>
+
+                  <View style={[styles.reviewsContainer]}>
+                    <Text numberOfLines={1} style={[styles.titleAnnounce]}>
+                      {item.title}
+                    </Text>
+                    <View style={[styles.starsContainer]}>
+                      <StarCard key={item.id} ratingValue={item.ratingValue} />
+                      <Text>{item.reviews} reviews</Text>
+                    </View>
                   </View>
                 </View>
-                <Text>{item.reviews} reviews</Text>
               </View>
-            </View>
+            </TouchableOpacity>
           )}
         />
       )}
@@ -63,12 +74,13 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    paddingLeft: 30
+    paddingLeft: 30,
+    position: "relative"
   },
   imageContainer: {
     marginBottom: 20
   },
-
+  titleAnnounce: {},
   price: {
     position: "absolute",
     justifyContent: "center",
@@ -83,10 +95,16 @@ const styles = StyleSheet.create({
   },
   reviewsContainer: {
     flex: 1,
-    flexDirection: "row",
-    justifyContent: "flex-start"
+    width: 300,
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    paddingLeft: 30
   },
   starsContainer: {
-    width: 100
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    width: 125
   }
 });

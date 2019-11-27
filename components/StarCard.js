@@ -1,28 +1,27 @@
 import React from "react";
-import { Text, View } from "react-native";
-import EvilIcons from "@expo/vector-icons";
+import { Text } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 const starsRating = ratingValue => {
-  console.log(ratingValue);
-
   const starArray = [];
 
-  for (i = 0; i <= 5; i++) {
+  for (i = 1; i <= 5; i++) {
     if (ratingValue >= i) {
-      starArray.push(<EvilIcons name="star" color="yellow" />);
+      starArray.push(
+        <Ionicons key={i} name="ios-star" color="#FFB401" size={25} />
+      );
     } else {
-      starArray.push(<EvilIcons name="star" color="grey" />);
+      // Nécessaire de mettre une clé pour enlever le warning. C'est l'icone qui est considérée comme étant répétée.
+      starArray.push(
+        <Ionicons key={i} name="ios-star" color="#BBBBBB" size={25} />
+      );
     }
   }
-  console.log(starArray);
-  return starArray.map(item => {
-    return item;
-  });
+  return starArray;
 };
 
-const StarCard = props => {
+export default StarCard = props => {
   const { ratingValue } = props;
 
-  return <View>{ratingValue && starsRating(ratingValue)}</View>;
+  return <Text>{starsRating(ratingValue)}</Text>;
 };
-export default StarCard;
