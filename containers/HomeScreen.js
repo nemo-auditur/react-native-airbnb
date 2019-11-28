@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/core";
-import { FlatList, Image, Text, StyleSheet, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  Image,
+  ImageBackground,
+  Text,
+  StyleSheet,
+  View
+} from "react-native";
 import StarCard from "../components/StarCard";
 // import axios
 import axios from "axios";
@@ -8,6 +16,8 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default function HomeScreen(props) {
   const navigation = useNavigation();
+
+  const size = 50;
 
   const [rooms, setRooms] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
@@ -31,13 +41,14 @@ export default function HomeScreen(props) {
   return (
     <View>
       {isLoading ? (
-        <Text>Chargement en cours</Text>
+        <ActivityIndicator style={[styles.activityIndicator]} />
       ) : (
         <FlatList
           data={rooms}
           keyExtractor={item => String(item._id)}
           renderItem={({ item }) => (
             <TouchableOpacity
+              style={[styles.container]}
               onPress={() => {
                 console.log(item._id);
                 navigation.navigate("Room", {
@@ -45,23 +56,33 @@ export default function HomeScreen(props) {
                 });
               }}
             >
-              <View style={[styles.container]}>
-                <View style={[styles.imageContainer]}>
-                  <Image
-                    style={{ width: 350, height: 200 }}
-                    source={{ uri: item.photos[0] }}
-                  ></Image>
+              <View>
+                <ImageBackground
+                  style={{ width: "100%", height: 200 }}
+                  source={{ uri: item.photos[0] }}
+                >
                   <Text style={[styles.price]}>{item.price} €</Text>
-
+                </ImageBackground>
+                <View style={[styles.informationsContainer]}>
                   <View style={[styles.reviewsContainer]}>
                     <Text numberOfLines={1} style={[styles.titleAnnounce]}>
                       {item.title}
                     </Text>
                     <View style={[styles.starsContainer]}>
                       <StarCard key={item.id} ratingValue={item.ratingValue} />
-                      <Text>{item.reviews} reviews</Text>
+                      <Text style={{ marginLeft: 10 }}>
+                        {item.reviews} reviews
+                      </Text>
                     </View>
                   </View>
+                  <Image
+                    source={{ uri: item.user.account.photos[0] }}
+                    style={{
+                      height: size,
+                      width: size,
+                      borderRadius: size / 2
+                    }}
+                  />
                 </View>
               </View>
             </TouchableOpacity>
@@ -74,22 +95,30 @@ export default function HomeScreen(props) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingLeft: 30,
-    position: "relative"
+    padding: 30,
+    position: "relative",
+    borderBottomColor: "grey",
+    borderBottomWidth: 1
   },
   imageContainer: {
     marginBottom: 20
   },
-  titleAnnounce: {},
+  informationsContainer: {
+    flexDirection: "row",
+    marginTop: 20
+  },
+  titleAnnounce: {
+    fontSize: 20
+  },
   price: {
     position: "absolute",
     justifyContent: "center",
     alignItems: "center",
     left: 0,
-    bottom: 90,
-    height: 50,
-    width: 70,
-    fontSize: 30,
+    bottom: 5,
+    height: 30,
+    width: 50,
+    fontSize: 20,
     backgroundColor: "black",
     color: "white"
   },
@@ -97,14 +126,20 @@ const styles = StyleSheet.create({
     flex: 1,
     width: 300,
     flexDirection: "column",
-    justifyContent: "flex-start",
-    paddingLeft: 30
+    justifyContent: "flex-start"
   },
   starsContainer: {
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    width: 125
+    width: 150,
+    paddingLeft: 30
+  },
+  activityIndicator: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    height: 80
   }
 });

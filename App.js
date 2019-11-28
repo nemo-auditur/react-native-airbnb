@@ -9,6 +9,7 @@ import ProfileScreen from "./containers/ProfileScreen";
 import SignInScreen from "./containers/SignInScreen";
 import SettingsScreen from "./containers/SettingsScreen";
 import RoomScreen from "./containers/RoomScreen";
+import FullMap from "./containers/FullMap";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -65,6 +66,8 @@ export default function App() {
                       let iconName;
                       if (route.name === "Settings") {
                         iconName = `ios-options`;
+                      } else if (route.name === "Map") {
+                        iconName = `ios-map`;
                       } else {
                         iconName = `ios-home`;
                       }
@@ -92,6 +95,17 @@ export default function App() {
                         }}
                       >
                         {() => <HomeScreen />}
+                      </Stack.Screen>
+
+                      <Stack.Screen
+                        name="Map"
+                        options={{
+                          title: "Map",
+                          headerStyle: { backgroundColor: "#FF5A5F" },
+                          headerTitleStyle: { color: "white" }
+                        }}
+                      >
+                        {() => <FullMap />}
                       </Stack.Screen>
 
                       <Stack.Screen
