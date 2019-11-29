@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { ActivityIndicator, Text, View } from "react-native";
+import { ActivityIndicator, Image, Text, View } from "react-native";
 
 import axios from "axios";
+import { ScrollView } from "react-native-gesture-handler";
 
 export default function ProfileScreen({ userID, userToken }) {
   const [userProfil, setUserProfil] = useState({});
@@ -39,8 +40,24 @@ export default function ProfileScreen({ userID, userToken }) {
           <ActivityIndicator size="large" color="#FF5A5F"></ActivityIndicator>
         </View>
       ) : (
-        <View>
+        <ScrollView>
           <View>
+            {userProfil.account.photos !== null ? (
+              <>
+                <Image
+                  height={300}
+                  width={300}
+                  borderRadius="50%"
+                  source={require("../assets/default-profil-picture.jpg")}
+                />
+              </>
+            ) : (
+              <Image
+                height={300}
+                width={300}
+                source={{ uri: userProfil.account.photos[0] }}
+              />
+            )}
             <Text>{userProfil.account.username}</Text>
           </View>
           <View>
@@ -53,7 +70,7 @@ export default function ProfileScreen({ userID, userToken }) {
               </View>
             );
           })}
-        </View>
+        </ScrollView>
       )}
     </>
   );

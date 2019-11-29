@@ -37,6 +37,7 @@ export default function App() {
     }
 
     setUserID(ID);
+    console.log(ID);
   };
 
   React.useEffect(() => {
@@ -44,11 +45,13 @@ export default function App() {
     const bootstrapAsync = async () => {
       // We should also handle error for production apps
       const userToken = await AsyncStorage.getItem("userToken");
+      const userID = await AsyncStorage.getItem("userID");
 
       // This will switch to the App screen or Auth screen and this loading
       // screen will be unmounted and thrown away.
       setIsLoading(false);
       setUserToken(userToken);
+      setUserID(userID);
     };
 
     bootstrapAsync();
@@ -163,7 +166,11 @@ export default function App() {
                     <Stack.Navigator>
                       <Stack.Screen
                         name="Profile"
-                        options={{ title: "Profile" }}
+                        options={{
+                          title: "Profile",
+                          headerStyle: { backgroundColor: "#FF5A5F" },
+                          headerTitleStyle: { color: "white" }
+                        }}
                       >
                         {() => (
                           <ProfileScreen
