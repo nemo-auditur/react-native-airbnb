@@ -22,7 +22,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 
 import axios from "axios";
 
-export default function SignInScreen({ setToken }) {
+export default function SignInScreen({ setToken, setID }) {
   // Set déclaration
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -38,8 +38,9 @@ export default function SignInScreen({ setToken }) {
       );
 
       if (response) {
-        console.log(response.data);
+        // console.log(response.data);
         setToken(response.data.token);
+        setID(response.data._id);
       }
     } catch (e) {
       alert(e.message);

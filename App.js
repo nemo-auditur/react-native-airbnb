@@ -17,6 +17,7 @@ const Stack = createStackNavigator();
 export default function App() {
   const [isLoading, setIsLoading] = React.useState(true);
   const [userToken, setUserToken] = React.useState(null);
+  const [userID, setUserID] = React.useState();
 
   const setToken = async token => {
     if (token) {
@@ -26,6 +27,16 @@ export default function App() {
     }
 
     setUserToken(token);
+  };
+
+  const setID = async ID => {
+    if (ID) {
+      AsyncStorage.setItem("userID", ID);
+    } else {
+      AsyncStorage.removeItem("userID");
+    }
+
+    setUserID(ID);
   };
 
   React.useEffect(() => {
@@ -60,7 +71,7 @@ export default function App() {
         ) : userToken === null ? (
           // No token found, user isn't signed in
           <Stack.Screen name="SignIn" options={{ header: () => null }}>
-            {() => <SignInScreen setToken={setToken} />}
+            {() => <SignInScreen setToken={setToken} setID={setID} />}
           </Stack.Screen>
         ) : (
           // User is signed in
@@ -154,7 +165,12 @@ export default function App() {
                         name="Profile"
                         options={{ title: "Profile" }}
                       >
-                        {() => <ProfileScreen setToken={setToken} />}
+                        {() => (
+                          <ProfileScreen
+                            userID={userID}
+                            userToken={userToken}
+                          />
+                        )}
                       </Stack.Screen>
                     </Stack.Navigator>
                   )}
