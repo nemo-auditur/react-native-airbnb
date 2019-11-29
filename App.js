@@ -46,7 +46,14 @@ export default function App() {
   return (
     <NavigationNativeContainer>
       <StatusBar barStyle="light-content" />
-      <Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: "#FF5A5F"
+          },
+          headerTintColor: "white"
+        }}
+      >
         {isLoading ? (
           // We haven't finished checking for the token yet
           <Stack.Screen name="Splash" component={() => null} />
@@ -68,6 +75,8 @@ export default function App() {
                         iconName = `ios-options`;
                       } else if (route.name === "Map") {
                         iconName = `ios-map`;
+                      } else if (route.name === "Profile") {
+                        iconName = `ios-person`;
                       } else {
                         iconName = `ios-home`;
                       }
@@ -83,7 +92,7 @@ export default function App() {
                   inactiveTintColor: "gray"
                 }}
               >
-                <Tab.Screen>
+                <Tab.Screen name="Home">
                   {() => (
                     <Stack.Navigator>
                       <Stack.Screen
@@ -95,17 +104,6 @@ export default function App() {
                         }}
                       >
                         {() => <HomeScreen />}
-                      </Stack.Screen>
-
-                      <Stack.Screen
-                        name="Map"
-                        options={{
-                          title: "Map",
-                          headerStyle: { backgroundColor: "#FF5A5F" },
-                          headerTitleStyle: { color: "white" }
-                        }}
-                      >
-                        {() => <FullMap />}
                       </Stack.Screen>
 
                       <Stack.Screen
@@ -121,6 +119,22 @@ export default function App() {
                     </Stack.Navigator>
                   )}
                 </Tab.Screen>
+                <Tab.Screen name="Map">
+                  {() => (
+                    <Stack.Navigator>
+                      <Stack.Screen
+                        name="Map"
+                        options={{
+                          title: "Map",
+                          headerStyle: { backgroundColor: "#FF5A5F" },
+                          headerTitleStyle: { color: "white" }
+                        }}
+                      >
+                        {() => <FullMap />}
+                      </Stack.Screen>
+                    </Stack.Navigator>
+                  )}
+                </Tab.Screen>
                 <Tab.Screen name="Settings">
                   {() => (
                     <Stack.Navigator>
@@ -129,6 +143,18 @@ export default function App() {
                         options={{ title: "Settings" }}
                       >
                         {() => <SettingsScreen setToken={setToken} />}
+                      </Stack.Screen>
+                    </Stack.Navigator>
+                  )}
+                </Tab.Screen>
+                <Tab.Screen name="Profile">
+                  {() => (
+                    <Stack.Navigator>
+                      <Stack.Screen
+                        name="Profile"
+                        options={{ title: "Profile" }}
+                      >
+                        {() => <ProfileScreen setToken={setToken} />}
                       </Stack.Screen>
                     </Stack.Navigator>
                   )}

@@ -9,6 +9,9 @@ import {
   StyleSheet,
   View
 } from "react-native";
+
+import Swiper from "react-native-swiper";
+
 import StarCard from "../components/StarCard";
 // import axios
 import axios from "axios";
@@ -25,7 +28,7 @@ export default function HomeScreen(props) {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        "https://airbnb-api.now.sh/api/room?city=paris"
+        "https://airbnb-api.herokuapp.com/api/room?city=paris"
       );
       setRooms(response.data.rooms);
       setIsLoading(false);

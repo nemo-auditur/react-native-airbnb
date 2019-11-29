@@ -9,8 +9,6 @@ export default function MapPreview(props) {
   const [location, setLocation] = useState(null);
 
   useEffect(() => {
-    console.log(loc);
-    console.log(loc[0]);
     const askPermission = async () => {
       // Va afficher une alerte pour demander la permission (seulement la premiere fois où on demande)
       const obj = await Permissions.askAsync(Permissions.LOCATION);

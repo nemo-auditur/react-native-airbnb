@@ -27,6 +27,7 @@
     "react-native-screens": "~1.0.0-alpha.23",
     "react-native-star-rating": "^1.1.0",
     "react-native-stars": "^1.1.6",
+    "react-native-swiper": "^1.5.14",
     "react-native-web": "^0.11.7"
   },
   "devDependencies": {
